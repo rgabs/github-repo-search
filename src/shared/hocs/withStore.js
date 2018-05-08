@@ -2,12 +2,13 @@ import React from 'react';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import todo from 'shared/reducers/todo';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
-export default (Component) => {
-  const reducers = combineReducers({ todo });
-  const store = createStore(reducers);
-  return (props) =>
-    (<Provider store={store}>
-      <Component {...props}/>
-    </Provider>)
-}
+const reducers = combineReducers({ todo });
+const store = createStore(reducers, composeWithDevTools({})());
+
+export default (Component) => (props) => (
+  <Provider store={store}>
+    <Component {...props}/>
+  </Provider>
+)
