@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = ({ platform, root }, defaults) => ({
-  entry: `./src/mobile/index.${platform}.js`,
+  entry: `./src/mobile/index.js`,
   resolve: {
     ...defaults.resolve,
     alias: {

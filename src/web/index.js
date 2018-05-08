@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import withStore from 'shared/hocs/withStore';
-import TodoScene from 'shared/scenes/TodoScene';
+import SearchScene from 'shared/scenes/SearchScene';
 
-const App = withStore(TodoScene);
+const App = withStore(SearchScene);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
