@@ -1,5 +1,5 @@
 {
-  "name": "UniversalReactApp",
+  "name": "githubsearch",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -43,6 +43,7 @@
     "react-native": "0.55.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "style-loader": "0.18.2",
     "styled-components": "^2.1.2",
     "sw-precache-webpack-plugin": "0.11.4",

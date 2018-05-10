@@ -1,31 +1,27 @@
 const initialState = {
-  todos: [],
-  filter: 'All',
+  cached: {a: ['hi', 'bye']},
+  visibleRepos: []
 };
 
 let id = 0;
 export default (state = initialState, action) => {
   switch(action.type) {
-    case 'ADD_TODO': {
+    case 'SET_VISIBLE_REPOS': {
       return {
         ...state,
-        todos: [...state.todos, { text: action.text, id: id++ }],
+        visibleRepos: action.payload,
       };
     }
-    case 'REMOVE_TODO': {
+    case 'ADD_CACHE': {
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo.id !== action.id),
+        cached: {...state.cached, [action.payload.inputString]: action.payload.repos}
       }
     }
-    case 'TOGGLE_TODO': {
+    case 'SET_CACHE': {
       return {
         ...state,
-        todos: state.todos.map((todo) =>
-          action.id === todo.id ?
-          ({ ...todo, completed: !todo.completed }) :
-          todo
-        ),
+        cached: action.payload,
       }
     }
     case 'FILTER_TODO': {

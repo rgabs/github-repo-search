@@ -1,4 +1,4 @@
-package com.universalreactapp;
+package com.githubsearch;
 
 import android.app.Application;
 
