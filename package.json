@@ -42,7 +42,7 @@
     "react-dom": "^16.0.0-beta.5",
     "react-github-login": "^1.0.3",
     "react-native": "0.55.3",
-    "react-native-oauth": "^2.2.0",
+    "react-native-oauth": "https://github.com/rgabs/react-native-oauth",
     "react-redux": "^5.0.6",
     "react-social-login": "^3.4.2",
     "redux": "^3.7.2",
