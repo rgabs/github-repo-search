@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import AsyncStorage from 'shared/utils/storage';
 import throttle from 'shared/utils/throttle';
 
-export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name`)
+export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=100`)
   .then(res => res.json());
 
 const throttledFetchRepos = throttle(fetchRepos, 1000);
@@ -10,21 +10,27 @@ const throttledFetchRepos = throttle(fetchRepos, 1000);
 export const fetchAndStoreRepos = (inputString) => {
   return (dispatch, getState) => {
     const { repos } = getState();
+    dispatch({ type: 'SHOW_LOADER' });
     if (repos.cached[inputString]) {
+      dispatch({ type: 'HIDE_LOADER' });
       return Promise.resolve(repos.cached[inputString]);
     }
     else if (!inputString || inputString.length < 2) {
       throttledFetchRepos.cancel();
-      return Promise.resolve([]);
+      dispatch({ type: 'HIDE_LOADER' });
+      return Promise.resolve(null);
     }
     else {
+      
       return throttledFetchRepos(inputString)
         .then(({ items }) => {
-          if (isEmpty(items)) {return [];}
+          dispatch({ type: 'HIDE_LOADER' });
+          if (isEmpty(items)) { return null;}
           dispatch({ type: 'ADD_CACHE', payload: { repos: items, inputString } });
           AsyncStorage.setItem('cachedRepos', JSON.stringify(getState().repos.cached));
           return items;
-        });
+        })
+        .catch(() => dispatch({ type: 'HIDE_LOADER' }));
     }
   }
 }

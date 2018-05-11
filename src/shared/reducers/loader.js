@@ -1,12 +1,12 @@
-const initialState = false;
+const initialState = 0;
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'SHOW_LOADER': {
-      return true;
+      return state + 1;
     }
     case 'HIDE_LOADER': {
-      return false;
+      return state - 1;
     }
     default: {
       return state;

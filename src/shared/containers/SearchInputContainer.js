@@ -5,7 +5,9 @@ import { fetchAndStoreRepos } from 'shared/actions/thunks'
 const mapDispatchToProps = (dispatch) => ({
   onInputChange: (text) => {
     dispatch(fetchAndStoreRepos(text))
-      .then((payload) => dispatch({ type: 'SET_VISIBLE_REPOS', payload }));
+      .then((payload) => {
+        payload && dispatch({ type: 'SET_VISIBLE_REPOS', payload });
+      })
   },
 });
 

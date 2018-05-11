@@ -45,6 +45,7 @@
     "react-native-oauth": "https://github.com/rgabs/react-native-oauth",
     "react-redux": "^5.0.6",
     "react-social-login": "^3.4.2",
+    "react-table": "^6.8.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "style-loader": "0.18.2",
