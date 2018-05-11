@@ -1,43 +1,29 @@
 import React from 'react';
 import styled from 'styled-primitives';
-import {connect} from 'react-redux';
-import { fetchAndStoreRepos, populateCacheFromLocal} from 'shared/actions/thunks'
+import Repos from 'shared/containers/ReposContainer'
 import GithubLogin from 'shared/containers/GithubLogin';
+import SearchInput from 'shared/containers/SearchInputContainer';
+import Loader from 'shared/containers/LoaderContainer';
+
 
 const Header = styled.Text`
   font-size: 20px;
   text-align: center;
 `;
-const Input = styled.TextInput``;
 const View = styled.View``;
 
-const mapStateToProps = ({ repos, spinner }) => ({ repos: repos.visibleRepos, spinner})
 
-const mapDispatchToProps = (dispatch) => ({
-  onInputChange: (text) => {
-    dispatch(fetchAndStoreRepos(text))
-      .then((payload) => dispatch({ type: 'SET_VISIBLE_REPOS', payload }));
-  },
-  setCache: () => {
-    dispatch(populateCacheFromLocal());
-  }
-})
-
-const Repos = ({ repos }) => repos && repos.length ? repos.map(({ full_name }) => <Header>{full_name}</Header>) : null
-
-class Search extends React.Component {
-  componentDidMount() {
-    this.props.setCache();
-  }
+class SearchScene extends React.Component {
   render() {
-    const { repos, onInputChange, searchString, spinner, triggerLogin } = this.props;
+    const { spinner } = this.props;
     return <View><Header>hello</Header>
-      <Input onChangeText={onInputChange} value={searchString} />
-      {spinner ? <Header>Loading...</Header> : <Repos repos={repos} />}
-      {/* <GithubLogin /> */}
+      <SearchInput/>
+      {spinner ? <Header>Loading...</Header> : <Repos/>}
+      <GithubLogin />
+      <Loader />
     </View>
   }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default SearchScene;

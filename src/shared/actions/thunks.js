@@ -20,9 +20,7 @@ export const fetchAndStoreRepos = (inputString) => {
     else {
       return throttledFetchRepos(inputString)
         .then(({ items }) => {
-          if (isEmpty(items)) {
-            return [];
-          }
+          if (isEmpty(items)) {return [];}
           dispatch({ type: 'ADD_CACHE', payload: { repos: items, inputString } });
           AsyncStorage.setItem('cachedRepos', JSON.stringify(getState().repos.cached));
           return items;
@@ -32,10 +30,19 @@ export const fetchAndStoreRepos = (inputString) => {
 }
 
 export const populateCacheFromLocal = () => dispatch => {
-  AsyncStorage.getItem('cachedRepos')
+  return AsyncStorage.getItem('cachedRepos')
     .then(JSON.parse)
     .then((cachedRepos) => {
       console.log('cachedRepos', cachedRepos);
       cachedRepos && dispatch({ type: 'SET_CACHE', payload: cachedRepos });
     })
+}
+
+export const onLoginSuccess = (accessToken) => dispatch => {
+  dispatch({type: 'LOGIN_SUCCESS', payload: accessToken});
+  return fetch(`https://api.github.com/user/repos?access_token=${accessToken}&affiliation=owner&per_page=100`)
+      .then(res => res.json())
+      .then((res) => {
+        dispatch({ type: 'REPOS_FETCHED', payload: res.map(repo => repo.id)});
+      })
 }

@@ -1,15 +1,15 @@
 const initialState = {
   cached: {a: ['hi', 'bye']},
-  visibleRepos: []
+  visible: [],
+  userRepos: []
 };
 
-let id = 0;
 export default (state = initialState, action) => {
   switch(action.type) {
     case 'SET_VISIBLE_REPOS': {
       return {
         ...state,
-        visibleRepos: action.payload,
+        visible: action.payload,
       };
     }
     case 'ADD_CACHE': {
