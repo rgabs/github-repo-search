@@ -14,51 +14,39 @@ const Pagination = ({ onNextPress, onPreviousPress, isBackActive, isNextActive})
   </div>
 )
 
+const DropDown = ({ onChange, options }) => <select onChange={this.changeRowsCount}>
+  {options.map((val, i) => <option key={i} value={val}>{val}</option>)}
+</select>
+
 class ReposContainer extends React.Component {
+  ROWS_COUNT_OPTIONS = [5, 10, 15]
+  
+  state = {
+    startIndex: 0,
+    rowsCount: this.ROWS_COUNT_OPTIONS[0]
+  }
+
   componentDidMount() {
     this.props.setCache();
   }
-  
+
   isUsersRepo = (repo) => this.props.userRepos.includes(repo.id);
 
-  state = { 
-    reposToShow: this.props.repos.slice(0, 5), 
-    startIndex: 0, 
-    isBackActive: true, 
-    isNextActive: this.props.repos.length > 0 
-  }
+  onNextPress = () => this.setState({ startIndex: this.state.startIndex + this.state.rowsCount})
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      reposToShow: props.repos.slice(0, 5),
-      isNextActive: props.repos.length > 0
-    })
-  }
-
-  onNextPress = () => { 
-    const newStartIndex = this.state.startIndex + 5;
-    this.setState({ 
-      reposToShow: this.props.repos.slice(newStartIndex, newStartIndex + 5),
-      startIndex: newStartIndex,
-      isNextActive: newStartIndex + 5 < this.props.repos.length
-    })
-  }
-
-  onPreviousPress = () => {
-    const newStartIndex = this.state.startIndex - 5;
-    
-    this.setState({
-      reposToShow: this.props.repos.slice(newStartIndex, this.state.startIndex),
-      startIndex: newStartIndex,
-      // isBackActive: newStartIndex > 0
-    })
-  }
+  onPreviousPress = () => this.setState({ startIndex: this.state.startIndex - this.state.rowsCount})
+  
+  changeRowsCount = (e) => this.setState({ rowsCount: Number(e.target.value), startIndex: 0});
 
   render() {
-    const { isBackActive, isNextActive, reposToShow} = this.state;
+    const { startIndex, rowsCount} = this.state;
+    const isNextActive = startIndex + rowsCount < this.props.repos.length;
+    const isBackActive = startIndex >= rowsCount ;
+    const slicedRows = this.props.repos.slice(startIndex, startIndex + rowsCount);
     return (
       <Wrapper>
-        <RepoList repos={reposToShow} isUsersRepo={this.isUsersRepo} />
+        <DropDown options={this.ROWS_COUNT_OPTIONS} onChange={this.changeRowsCount} />
+        <RepoList repos={slicedRows} isUsersRepo={this.isUsersRepo} />
         <Pagination onNextPress={this.onNextPress} onPreviousPress={this.onPreviousPress} 
           isBackActive={isBackActive} isNextActive={isNextActive} />
       </Wrapper>
