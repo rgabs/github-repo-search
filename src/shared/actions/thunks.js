@@ -18,19 +18,21 @@ export const fetchAndStoreRepos = (inputString) => {
     else if (!inputString || inputString.length < 2) {
       throttledFetchRepos.cancel();
       dispatch({ type: 'HIDE_LOADER' });
-      return Promise.resolve(null);
+      return Promise.resolve([]);
     }
     else {
-      
       return throttledFetchRepos(inputString)
         .then(({ items }) => {
           dispatch({ type: 'HIDE_LOADER' });
-          if (isEmpty(items)) { return null;}
+          if (!items) { return items;}
           dispatch({ type: 'ADD_CACHE', payload: { repos: items, inputString } });
           AsyncStorage.setItem('cachedRepos', JSON.stringify(getState().repos.cached));
           return items;
         })
-        .catch(() => dispatch({ type: 'HIDE_LOADER' }));
+        .catch((e) => {
+          dispatch({ type: 'HIDE_LOADER' });
+          throw e;
+        });
     }
   }
 }

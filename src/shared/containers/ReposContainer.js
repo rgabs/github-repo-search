@@ -33,6 +33,11 @@ class ReposContainer extends React.Component {
     startIndex: 0,
     rowsCount: this.ROWS_COUNT_OPTIONS[0]
   }
+  componentWillReceiveProps(newProps) {
+    if (newProps.repos !== this.props.repos) {
+      this.setState({ startIndex: 0}) // Reset pagination if the rows have been changed
+    }
+  }
 
   componentDidMount() {
     this.props.setCache();
