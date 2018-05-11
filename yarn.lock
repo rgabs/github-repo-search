@@ -7493,7 +7493,7 @@ react-hot-loader@3.0.0-beta.7:
 
 "react-native-oauth@https://github.com/rgabs/react-native-oauth":
   version "2.2.0"
-  resolved "https://github.com/rgabs/react-native-oauth#207c0d26d23d69fca2f990465e8db5d4e22eb69f"
+  resolved "https://github.com/rgabs/react-native-oauth#74a1c8c090cd7cac532c6e789eb4db506b20d891"
   dependencies:
     invariant "^2.2.1"
     valib "^2.0.0"
