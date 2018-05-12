@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 import GithubLoginButton from 'shared/components/GithubLoginButton'
 import { connect } from 'react-redux';
 import { onLoginSuccess } from 'shared/actions/thunks';
-
+import {Text} from 'react-native';
 
 class GithubLogin extends React.Component {
   static manager = new OAuthManager('githubsearch')
@@ -27,7 +27,7 @@ class GithubLogin extends React.Component {
   }
 
   render() {
-    return <GithubLoginButton triggerLogin={this.logMeIn}></GithubLoginButton>
+    return !this.props.user.isLoggedIn ? <GithubLoginButton triggerLogin={this.logMeIn}></GithubLoginButton> : <Text>Logged In</Text>
   }
 }
 
@@ -39,8 +39,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLoginFailure: console.log
 })
 
-const mapStateToProps = () => ({
-
+const mapStateToProps = ({user}) => ({
+  user
 })
 
 

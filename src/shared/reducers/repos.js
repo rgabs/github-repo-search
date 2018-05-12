@@ -1,5 +1,5 @@
 const initialState = {
-  cached: {a: ['hi', 'bye']},
+  cached: {},
   visible: [],
   userRepos: []
 };
@@ -22,12 +22,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cached: action.payload,
-      }
-    }
-    case 'FILTER_TODO': {
-      return {
-        ...state,
-        filter: action.filter,
       }
     }
     default: {
