@@ -19,7 +19,7 @@ const addCache = (repos, inputString) => (dispatch, getState) => {
 export const fetchAndStoreRepos = (inputString) => {
   return (dispatch, getState) => {
     const { repos } = getState();
-    if (repos.cached.searchStringsMap[inputString]) {
+    if (repos.cached.searchStringsMap[inputString.toLowerCase()]) {
       return Promise.resolve(getCachedReposForInput(repos.cached, inputString));
     }
     else if (!inputString || inputString.length < 2) {
