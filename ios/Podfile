@@ -7,6 +7,8 @@ target 'githubsearch' do
 
   # Pods for githubsearch
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'githubsearchTests' do
     inherit! :search_paths
     # Pods for testing

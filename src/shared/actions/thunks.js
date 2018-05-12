@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import AsyncStorage from 'shared/utils/storage';
 import throttle from 'shared/utils/throttle';
 
-export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=100`)
+export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`)
   .then(res => res.json());
 
 const throttledFetchRepos = throttle(fetchRepos, 1000);
@@ -36,6 +36,7 @@ export const fetchAndStoreRepos = (inputString) => {
     }
   }
 }
+AsyncStorage.getItem('cachedRepos').then(console.log)
 
 export const populateCacheFromLocal = () => dispatch => {
   return AsyncStorage.getItem('cachedRepos')
@@ -44,6 +45,7 @@ export const populateCacheFromLocal = () => dispatch => {
       console.log('cachedRepos', cachedRepos);
       cachedRepos && dispatch({ type: 'SET_CACHE', payload: cachedRepos });
     })
+    .catch(console.log)
 }
 
 export const onLoginSuccess = (accessToken) => dispatch => {

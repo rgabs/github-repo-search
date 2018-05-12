@@ -1,22 +1,13 @@
 import React from 'react';
 import RepoList from 'shared/components/RepoList'
-// import Pagination from 'shared/components/Pagination'
+import Footer from 'shared/components/Footer'
 import {connect} from 'react-redux';
 import { populateCacheFromLocal } from 'shared/actions/thunks';
 import styled from 'styled-primitives';
 
-const Wrapper = styled.View``;
-
-const Pagination = ({ onNextPress, onPreviousPress, isBackActive, isNextActive}) => (
-  <div>
-    <button onClick={onPreviousPress} disabled={!isBackActive}>previous {!isBackActive}</button>
-    <button onClick={onNextPress} disabled={!isNextActive}>next {String(!isNextActive)}</button>
-  </div>
-)
-
-const DropDown = ({ onChange, options }) => <select onChange={onChange}>
-  {options.map((val, i) => <option key={i} value={val}>{val}</option>)}
-</select>
+const Wrapper = styled.View`
+  flex: 1
+`;
 
 class ReposContainer extends React.Component {
   ROWS_COUNT_OPTIONS = [5, 10, 15]
@@ -26,7 +17,7 @@ class ReposContainer extends React.Component {
     { Header: 'Repo Title', accessor: 'name' },
     { Header: 'Owner', accessor: 'owner.login' },
     { Header: 'Stars', accessor: 'stargazers_count' },
-    { Header: 'Created at', accessor: 'created_at' },
+    { Header: 'Created', accessor: 'created_at' },
   ]
 
   state = {
@@ -49,7 +40,7 @@ class ReposContainer extends React.Component {
 
   onPreviousPress = () => this.setState({ startIndex: this.state.startIndex - this.state.rowsCount})
   
-  changeRowsCount = (e) => this.setState({ rowsCount: Number(e.target.value), startIndex: 0});
+  changeRowsCount = (rowsCount) => this.setState({ rowsCount: Number(rowsCount), startIndex: 0});
 
   render() {
     const { startIndex, rowsCount} = this.state;
@@ -58,10 +49,9 @@ class ReposContainer extends React.Component {
     const slicedRows = this.props.repos.slice(startIndex, startIndex + rowsCount);
     return (
       <Wrapper>
-        <DropDown options={this.ROWS_COUNT_OPTIONS} onChange={this.changeRowsCount} />
-        <RepoList loading={this.props.loading} repos={slicedRows} isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
-        <Pagination onNextPress={this.onNextPress} onPreviousPress={this.onPreviousPress} 
-          isBackActive={isBackActive} isNextActive={isNextActive} />
+        <RepoList dropdownPlaceholder='Rows to Display' loading={this.props.loading} repos={slicedRows} isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
+        <Footer searchPlaceHolder='Rows to Display' onNextPress={this.onNextPress} onPreviousPress={this.onPreviousPress} options={this.ROWS_COUNT_OPTIONS} 
+          isBackActive={isBackActive} isNextActive={isNextActive} onChange={this.changeRowsCount} ></Footer>
       </Wrapper>
     );
   }

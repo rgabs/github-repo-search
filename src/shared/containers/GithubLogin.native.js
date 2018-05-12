@@ -1,6 +1,7 @@
 import React from 'react'
 import OAuthManager from 'react-native-oauth';
 import {Platform} from 'react-native';
+import GithubLoginButton from 'shared/components/GithubLoginButton'
 
 export default class GithubLogin extends React.Component {
   static manager = new OAuthManager('githubsearch')
@@ -24,6 +25,6 @@ export default class GithubLogin extends React.Component {
 
   render() {
     this.logMeIn();
-    return null
+    return <GithubLoginButton triggerLogin={this.logMeIn}></GithubLoginButton>
   }
 }
