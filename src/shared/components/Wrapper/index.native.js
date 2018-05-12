@@ -1,15 +1,14 @@
 import React from 'react';
-import styled from 'styled-primitives';
+import * as Animatable from 'react-native-animatable';
 import StatusBar from 'shared/components/StatusBar'
 
-const StyledWrapper = styled.View`
-  justify-content: space-between;
-  flex: 1;
-`
+const wrapperStyle = {
+  justifyContent: 'space-between', flex: 1
+}
 
 export default ({children}) => (
-  <StyledWrapper>
-    <StatusBar/>
-    {children}
-  </StyledWrapper>
+  <Animatable.View useNativeDriver style={wrapperStyle} animation='fadeIn'>
+      <StatusBar />
+      {children}
+  </Animatable.View>
 )

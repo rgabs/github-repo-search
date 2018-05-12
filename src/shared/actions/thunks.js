@@ -1,13 +1,9 @@
 import AsyncStorage from 'shared/utils/storage';
-import {debounce} from 'shared/utils/async';
 import {isEmpty} from 'lodash';
 import { getCachedReposForInput, processRepos } from 'shared/utils/repos'
 
-export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`)
+const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`)
   .then(res => res.json());
-
-const debouncedFetchRepos = debounce(fetchRepos, 1000);
-
 
 const addCache = (repos, inputString) => (dispatch, getState) => {
   const cachedRepos = getState().repos.cached;
@@ -27,11 +23,11 @@ export const fetchAndStoreRepos = (inputString) => {
     }
     else {
       dispatch({ type: 'SHOW_LOADER' });
-      return debouncedFetchRepos(inputString).then(({ items, searchQuery }) => {
+      return fetchRepos(inputString).then(({ items }) => {
           dispatch({ type: 'HIDE_LOADER' });
           const processedRepos = items.map(processRepos);
-          dispatch(addCache(processedRepos, searchQuery ))
-          return processedRepos
+          dispatch(addCache(processedRepos, inputString ));
+          return processedRepos;
         })
         .catch((e) => {
           dispatch({ type: 'HIDE_LOADER' });

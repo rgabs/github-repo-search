@@ -5,7 +5,6 @@
   "scripts": {
     "android": "react-native run-android",
     "build-web": "node web/scripts/build.js",
-    "haul": "haul start",
     "ios": "react-native run-ios",
     "web": "node web/scripts/start.js"
   },

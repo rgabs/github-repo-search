@@ -4,30 +4,45 @@ import Footer from 'shared/components/Footer'
 import {connect} from 'react-redux';
 import { populateCacheFromLocal } from 'shared/actions/thunks';
 import styled from 'styled-primitives';
+import { sortBy } from 'lodash';
 
 const Wrapper = styled.View`
   flex: 1
 `;
 
 class ReposContainer extends React.Component {
-  ROWS_COUNT_OPTIONS = [5, 10, 15]
+  ROWS_COUNT_OPTIONS = [5, 10, 15, 20]
   
   HEADINGS = [
-    { Header: 'ID', accessor: 'id' },
-    { Header: 'Repo Title', accessor: 'name' },
-    { Header: 'Owner', accessor: 'owner' },
-    { Header: 'Stars', accessor: 'stargazers_count' },
-    { Header: 'Created', accessor: 'created_at' },
+    { Header: 'ID', accessor: 'id', sortBy: 'id' },
+    { Header: 'Repo Title', accessor: 'name', sortBy: 'name' },
+    { Header: 'Owner', accessor: 'owner', sortBy: 'owner' },
+    { Header: 'Stars', accessor: 'stargazers_count', sortBy: 'stargazers_count' },
+    { Header: 'Created', accessor: 'created_at', sortBy: 'createdTimeStamp' },
   ]
 
   state = {
     startIndex: 0,
-    rowsCount: this.ROWS_COUNT_OPTIONS[0]
+    rowsCount: this.ROWS_COUNT_OPTIONS[0],
+    selectedHeader: {},
+    headerValue: false,
+    repos: this.props.repos
   }
-  componentWillReceiveProps(newProps) {
-    if (newProps.repos !== this.props.repos) {
-      this.setState({ startIndex: 0}) // Reset pagination if the rows have been changed
+
+  componentWillReceiveProps({repos}) {
+    if (repos !== this.props.repos) {
+      this.setState({ startIndex: 0, repos, selectedHeader: {}, headerValue: false,}) 
+      // Reset pagination and headerfilter if the rows have been changed
     }
+  }
+  toggleHeader = (selectedHeader) => () => {
+    const headerValue = this.state.selectedHeader.accessor === selectedHeader.accessor && !this.state.headerValue;
+    const sortedRepos = sortBy(this.props.repos, selectedHeader.sortBy);
+    this.setState({
+      selectedHeader: selectedHeader,
+      headerValue,
+      repos: headerValue ? sortedRepos.reverse() : sortedRepos
+    });
   }
 
   componentDidMount() {
@@ -43,14 +58,17 @@ class ReposContainer extends React.Component {
   changeRowsCount = (rowsCount) => this.setState({ rowsCount: Number(rowsCount), startIndex: 0});
 
   render() {
-    const { startIndex, rowsCount} = this.state;
+    const { startIndex, rowsCount, selectedHeader, headerValue} = this.state;
     const isNextActive = startIndex + rowsCount < this.props.repos.length;
-    const isBackActive = startIndex >= rowsCount ;
-    const slicedRows = this.props.repos.slice(startIndex, startIndex + rowsCount);
+    const isBackActive = startIndex >= rowsCount;
+    const slicedRepos = this.state.repos.slice(startIndex, startIndex + rowsCount);
     return (
       <Wrapper>
-        <RepoList dropdownPlaceholder='Rows to Display' loading={this.props.loading} repos={slicedRows} isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
-        <Footer searchPlaceHolder='Rows to Display' onNextPress={this.onNextPress} onPreviousPress={this.onPreviousPress} options={this.ROWS_COUNT_OPTIONS} 
+        <RepoList selectedHeader={selectedHeader} dropdownPlaceholder='Rows to Display' repos={slicedRepos} 
+          headerValue={headerValue} loading={this.props.loading} toggleHeader={this.toggleHeader} 
+          isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
+        <Footer searchPlaceHolder='Rows to Display' onNextPress={this.onNextPress} 
+          onPreviousPress={this.onPreviousPress} options={this.ROWS_COUNT_OPTIONS} 
           isBackActive={isBackActive} isNextActive={isNextActive} onChange={this.changeRowsCount} ></Footer>
       </Wrapper>
     );

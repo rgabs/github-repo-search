@@ -15,7 +15,8 @@ export const processRepos = ({ id, name, owner, stargazers_count, created_at }) 
   name,
   stargazers_count,
   owner: owner.login,
-  created_at: formatDate(created_at)
+  created_at: formatDate(created_at),
+  createdTimeStamp: Date.parse(created_at)
 })
 
 export const getCachedReposForInput = (cached, inputString) => cached.searchStringsMap[inputString.toLowerCase()]
