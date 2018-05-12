@@ -58,7 +58,8 @@ class ReposContainer extends React.Component {
 }
 
 const mapStateToProps = ({ repos, user, loader }) => ({ 
-  repos: repos.visible, repoIDs: user.repoIDs,
+  repos: repos.visible.map(id => repos.cached.allRepos[id]), 
+  repoIDs: user.repoIDs,
   loading: loader > 0
 });
 

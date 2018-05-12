@@ -1,54 +1,37 @@
 import AsyncStorage from 'shared/utils/storage';
-import throttle from 'shared/utils/throttle';
+import {debounce} from 'shared/utils/async';
+import {isEmpty} from 'lodash';
+import { getCachedReposForInput, processRepos } from 'shared/utils/repos'
 
 export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`)
   .then(res => res.json());
 
-const throttledFetchRepos = throttle(fetchRepos, 1000);
-
-const formatDate = (date) => {
-  let d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-};
-
-const processRepos = ({ id, name, owner, stargazers_count, created_at }) => ({ 
-  id, 
-  name, 
-  stargazers_count, 
-  owner: owner.login, 
-  created_at: formatDate(created_at)
-})
+const debouncedFetchRepos = debounce(fetchRepos, 1000);
 
 
+const addCache = (repos, inputString) => (dispatch, getState) => {
+  const cachedRepos = getState().repos.cached;
+  if (isEmpty(repos) || cachedRepos.searchStringsMap[inputString]) return;
+  dispatch({ type: 'ADD_CACHE', payload: { repos: repos, inputString } });
+  AsyncStorage.setItem('cachedRepos', JSON.stringify(cachedRepos));
+}
 
 export const fetchAndStoreRepos = (inputString) => {
   return (dispatch, getState) => {
     const { repos } = getState();
-    dispatch({ type: 'SHOW_LOADER' });
-    if (repos.cached[inputString]) {
-      dispatch({ type: 'HIDE_LOADER' });
-      return Promise.resolve(repos.cached[inputString]);
+    if (repos.cached.searchStringsMap[inputString]) {
+      return Promise.resolve(getCachedReposForInput(repos.cached, inputString));
     }
     else if (!inputString || inputString.length < 2) {
-      throttledFetchRepos.cancel();
-      dispatch({ type: 'HIDE_LOADER' });
       return Promise.resolve([]);
     }
     else {
-      return throttledFetchRepos(inputString)
-        .then(({ items }) => {
+      dispatch({ type: 'SHOW_LOADER' });
+      return debouncedFetchRepos(inputString).then(({ items, searchQuery }) => {
           dispatch({ type: 'HIDE_LOADER' });
-          if (!items) { return items;}
-          dispatch({ type: 'ADD_CACHE', payload: { repos: items, inputString } });
-          AsyncStorage.setItem('cachedRepos', JSON.stringify(getState().repos.cached));
-          return items.map(processRepos);
+          const processedRepos = items.map(processRepos);
+          dispatch(addCache(processedRepos, searchQuery ))
+          return processedRepos
         })
         .catch((e) => {
           dispatch({ type: 'HIDE_LOADER' });
@@ -64,7 +47,7 @@ export const populateCacheFromLocal = () => dispatch => {
     .then((cachedRepos) => {
       cachedRepos && dispatch({ type: 'SET_CACHE', payload: cachedRepos });
     })
-    .catch(console.log)
+    .catch(console.log) // log because no error handler
 }
 
 export const onLoginSuccess = (accessToken) => dispatch => {
@@ -74,4 +57,5 @@ export const onLoginSuccess = (accessToken) => dispatch => {
       .then((res) => {
         dispatch({ type: 'REPOS_FETCHED', payload: res.map(repo => repo.id)});
       })
+      .catch(console.log) // log because no error handler
 }
