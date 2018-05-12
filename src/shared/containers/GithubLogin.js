@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import GithubLoginButton from 'shared/components/GithubLoginButton/index';
 import {onLoginSuccess} from 'shared/actions/thunks';
 
-
 const GithubLogin = SocialLogin(GithubLoginButton);
 
 const GithubLoginContainer = (props) => (
@@ -15,10 +14,12 @@ const GithubLoginContainer = (props) => (
 const mapDispatchToProps = (dispatch) => ({
   onLoginSuccess: (response) => {
     window.history.replaceState({}, document.title, '/');
+    console.log('response', response);
     dispatch(onLoginSuccess(response._token.accessToken));
   },
   onLoginFailure: console.log
 })
+
 const mapStateToProps = () => ({
 
 })

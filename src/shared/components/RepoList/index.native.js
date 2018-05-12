@@ -13,11 +13,6 @@ class RepoList extends React.Component {
     repos: this.props.repos
   }
 
-  headerStyleMap = {
-    true: { borderBottomWidth: 3 },
-    false: { borderTopWidth: 2 }
-  }
-
   getHeaderItemStye = (column) => this.state.selectedHeader === column.accessor && styles.headerStyleMap[this.state.headerValue]
 
   toggleHeader = (selectedHeader) => () => {
@@ -38,7 +33,7 @@ class RepoList extends React.Component {
 
   renderItem = ({ item }) => <View useNativeDriver animation='fadeIn' style={[styles.listItem, this.props.isUsersRepo(item) ? styles.hightlightRowStyle : {}]}>
     {this.props.columns.map((column, i) => (
-      <Text key={i} style={{ flex: 1, fontSize: 12 }}>{result(item, column.accessor, '')}</Text>
+      <Text key={i} style={styles.rowText}>{result(item, column.accessor, '')}</Text>
     ))}
   </View>;
 

@@ -2,8 +2,11 @@ import React from 'react'
 import OAuthManager from 'react-native-oauth';
 import {Platform} from 'react-native';
 import GithubLoginButton from 'shared/components/GithubLoginButton'
+import { connect } from 'react-redux';
+import { onLoginSuccess } from 'shared/actions/thunks';
 
-export default class GithubLogin extends React.Component {
+
+class GithubLogin extends React.Component {
   static manager = new OAuthManager('githubsearch')
 
   githubConfig = {
@@ -17,14 +20,28 @@ export default class GithubLogin extends React.Component {
     });
   }
 
-  logMeIn() {
-    GithubLogin.manager.authorize('github', { scopes: 'profile email' })
-      .then(resp => console.log('Your users ID', resp))
-      .catch(err => console.log('There was an error, ', err));
+  logMeIn = () => {
+    GithubLogin.manager.authorize('github', { scopes: 'profile,user' })
+      .then(this.props.onLoginSuccess)
+      .catch(this.props.onLoginFailure);
   }
 
   render() {
-    this.logMeIn();
     return <GithubLoginButton triggerLogin={this.logMeIn}></GithubLoginButton>
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoginSuccess: ({response}) => {
+    dispatch(onLoginSuccess(response.credentials.accessToken));
+  },
+  onLoginFailure: console.log
+})
+
+const mapStateToProps = () => ({
+
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(GithubLogin)

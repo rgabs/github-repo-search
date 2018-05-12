@@ -15,7 +15,7 @@ class ReposContainer extends React.Component {
   HEADINGS = [
     { Header: 'ID', accessor: 'id' },
     { Header: 'Repo Title', accessor: 'name' },
-    { Header: 'Owner', accessor: 'owner.login' },
+    { Header: 'Owner', accessor: 'owner' },
     { Header: 'Stars', accessor: 'stargazers_count' },
     { Header: 'Created', accessor: 'created_at' },
   ]

@@ -9,7 +9,7 @@ const mapDispatchToProps = (dispatch) => ({
         payload && dispatch({ type: 'SET_VISIBLE_REPOS', payload });
       })
       .catch((e) => {
-        alert('Error occured. Error: ', e.message);
+        console.log('Error occured. Error: ', e.message);
         dispatch({ type: 'SET_VISIBLE_REPOS', payload: [] })
       })
   },

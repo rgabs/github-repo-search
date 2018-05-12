@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import AsyncStorage from 'shared/utils/storage';
 import throttle from 'shared/utils/throttle';
 
@@ -6,6 +5,28 @@ export const fetchRepos = (inputString) => fetch(`https://api.github.com/search/
   .then(res => res.json());
 
 const throttledFetchRepos = throttle(fetchRepos, 1000);
+
+const formatDate = (date) => {
+  let d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
+const processRepos = ({ id, name, owner, stargazers_count, created_at }) => ({ 
+  id, 
+  name, 
+  stargazers_count, 
+  owner: owner.login, 
+  created_at: formatDate(created_at)
+})
+
+
 
 export const fetchAndStoreRepos = (inputString) => {
   return (dispatch, getState) => {
@@ -27,7 +48,7 @@ export const fetchAndStoreRepos = (inputString) => {
           if (!items) { return items;}
           dispatch({ type: 'ADD_CACHE', payload: { repos: items, inputString } });
           AsyncStorage.setItem('cachedRepos', JSON.stringify(getState().repos.cached));
-          return items;
+          return items.map(processRepos);
         })
         .catch((e) => {
           dispatch({ type: 'HIDE_LOADER' });
@@ -36,13 +57,11 @@ export const fetchAndStoreRepos = (inputString) => {
     }
   }
 }
-AsyncStorage.getItem('cachedRepos').then(console.log)
 
 export const populateCacheFromLocal = () => dispatch => {
   return AsyncStorage.getItem('cachedRepos')
     .then(JSON.parse)
     .then((cachedRepos) => {
-      console.log('cachedRepos', cachedRepos);
       cachedRepos && dispatch({ type: 'SET_CACHE', payload: cachedRepos });
     })
     .catch(console.log)

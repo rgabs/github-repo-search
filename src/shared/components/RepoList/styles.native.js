@@ -23,5 +23,6 @@ export default {
   headerText: {
      fontWeight: 'bold', paddingVertical: 10, textAlign: 'center', color: 'white', fontSize: 12 
   },
-  activityIndicator: { flex: 1 }
+  activityIndicator: { flex: 1 },
+  rowText: { flex: 1, fontSize: 12 }
 }
