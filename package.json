@@ -5,9 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "build-web": "node web/scripts/build.js",
+    "deploy-web": "gh-pages -d web/build",
     "ios": "react-native run-ios",
     "web": "node web/scripts/start.js"
   },
+  "homepage": "http://rgabs.github.io/github-repo-search",
   "dependencies": {
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
@@ -64,6 +66,7 @@
   "devDependencies": {
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.1.0",
+    "gh-pages": "^1.1.0",
     "haul": "^1.0.0-rc.0",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12",
