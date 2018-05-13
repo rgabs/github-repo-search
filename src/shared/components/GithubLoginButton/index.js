@@ -4,9 +4,9 @@ import styled from 'styled-primitives';
 const StyledButton = styled.View`
   display: inline-flex;
   justify-content: center;
-`
+`;
 
-const LoginButton = ({ triggerLogin, isLoggedIn }) => (
+const LoginButton = ({triggerLogin, isLoggedIn}) => (
   <StyledButton>
     <button className='waves-effect waves-light btn' disabled={isLoggedIn}
       onClick={triggerLogin}>

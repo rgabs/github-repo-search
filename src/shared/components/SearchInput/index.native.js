@@ -1,7 +1,7 @@
 import React from 'react';
-import { SearchBar } from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 
-const SearchInput = ({ onInputChange }) => <SearchBar
+const SearchInput = ({onInputChange}) => <SearchBar
   round
   onChangeText={onInputChange}
   placeholder='Type Here...' />;

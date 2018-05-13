@@ -1,17 +1,15 @@
 import React from 'react';
-import { FlatList, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { result } from 'lodash';
-import { View } from 'react-native-animatable';
-import { Divider, } from 'react-native-elements';
 import styles from './styles.native';
+import {ActivityIndicator, FlatList, Text, TouchableOpacity} from 'react-native';
+import {Divider} from 'react-native-elements';
+import {View} from 'react-native-animatable';
+import {result} from 'lodash';
 
 
 class RepoList extends React.Component {
-  getHeaderItemStye = (column) => {
-    return this.props.selectedHeader.accessor === column.accessor && styles.headerStyleMap[this.props.headerValue]
-  }
+  getHeaderItemStye = (column) => this.props.selectedHeader.accessor === column.accessor && styles.headerStyleMap[this.props.headerValue]
 
-  renderItem = ({ item }) => (
+  renderItem = ({item}) => (
     <View useNativeDriver animation='fadeIn' 
       style={[styles.listItem, this.props.isUsersRepo(item) ? styles.hightlightRowStyle : {}]}>
       {this.props.columns.map((column, i) => (
@@ -35,12 +33,12 @@ class RepoList extends React.Component {
 
   keyExtractor = (item) => String(item.id);
 
-  render() {
+  render () {
     return this.props.loading ?
-          <ActivityIndicator size='large' color='#f50' style={styles.activityIndicator} /> :
-          <FlatList stickyHeaderIndices={[0]}
-            ItemSeparatorComponent={Divider} keyExtractor={this.keyExtractor} ListHeaderComponent={this.ListHeader}
-            data={this.props.repos} renderItem={this.renderItem} />
+      <ActivityIndicator size='large' color='#f50' style={styles.activityIndicator} /> :
+      <FlatList stickyHeaderIndices={[0]}
+        ItemSeparatorComponent={Divider} keyExtractor={this.keyExtractor} ListHeaderComponent={this.ListHeader}
+        data={this.props.repos} renderItem={this.renderItem} />
     ;
   }
 }

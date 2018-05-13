@@ -1,18 +1,18 @@
-import {connect} from 'react-redux';
 import SearchInput from 'shared/components/SearchInput';
-import { fetchAndStoreRepos } from 'shared/actions/thunks'
+import {connect} from 'react-redux';
 import {debounce} from 'lodash';
+import {fetchAndStoreRepos} from 'shared/actions/thunks';
 
 const mapDispatchToProps = (dispatch) => ({
   onInputChange: debounce((text) => {
-    dispatch(fetchAndStoreRepos(text))
-      .then((payload) => {
-        dispatch({ type: 'SET_VISIBLE_REPOS', payload });
-      })
-      .catch((e) => {
+    dispatch(fetchAndStoreRepos(text)).
+      then((payload) => {
+        dispatch({type: 'SET_VISIBLE_REPOS', payload});
+      }).
+      catch((e) => {
         console.log('Error occured. Error: ', e.message);
-        dispatch({ type: 'SET_VISIBLE_REPOS', payload: [] })
-      })
+        dispatch({type: 'SET_VISIBLE_REPOS', payload: []});
+      });
   }, 500),
 });
 

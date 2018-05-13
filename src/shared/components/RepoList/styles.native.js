@@ -1,8 +1,8 @@
 export default {
-  hightlightRowStyle: { backgroundColor: '#DBDBDB' },
+  hightlightRowStyle: {backgroundColor: '#DBDBDB'},
   headerStyleMap: {
-    true: { borderBottomWidth: 3 },
-    false: { borderTopWidth: 2 }
+    true: {borderBottomWidth: 3},
+    false: {borderTopWidth: 2}
   },
   listItem: {
     flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 2
@@ -21,8 +21,8 @@ export default {
     flex: 1, marginTop: 5, justifyContent: 'center' 
   },
   headerText: {
-     fontWeight: 'bold', paddingVertical: 10, textAlign: 'center', color: 'white', fontSize: 12 
+    fontWeight: 'bold', paddingVertical: 10, textAlign: 'center', color: 'white', fontSize: 12 
   },
-  activityIndicator: { flex: 1 },
-  rowText: { flex: 1, fontSize: 12 }
-}
+  activityIndicator: {flex: 1},
+  rowText: {flex: 1, fontSize: 12}
+};

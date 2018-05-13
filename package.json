@@ -6,7 +6,9 @@
     "android": "react-native run-android",
     "build-web": "node web/scripts/build.js",
     "ios": "react-native run-ios",
-    "web": "node web/scripts/start.js"
+    "web": "node web/scripts/start.js",
+    "lint": "eslint ./src/",
+    "lint:fix": "eslint --fix ./src/"
   },
   "dependencies": {
     "autoprefixer": "7.1.2",
@@ -64,13 +66,11 @@
   "devDependencies": {
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.1.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
     "haul": "^1.0.0-rc.0",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12",
     "redux-devtools-extension": "^2.13.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "contributors": [
     "dratwas",

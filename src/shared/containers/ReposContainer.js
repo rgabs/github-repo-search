@@ -1,10 +1,10 @@
+import Footer from 'shared/components/Footer';
 import React from 'react';
-import RepoList from 'shared/components/RepoList'
-import Footer from 'shared/components/Footer'
-import {connect} from 'react-redux';
-import { populateCacheFromLocal } from 'shared/actions/thunks';
+import RepoList from 'shared/components/RepoList';
 import styled from 'styled-primitives';
-import { sortBy } from 'lodash';
+import {connect} from 'react-redux';
+import {populateCacheFromLocal} from 'shared/actions/thunks';
+import {sortBy} from 'lodash';
 
 const Wrapper = styled.View`
   flex: 1
@@ -14,11 +14,11 @@ class ReposContainer extends React.Component {
   ROWS_COUNT_OPTIONS = [5, 10, 15, 20]
   
   HEADINGS = [
-    { Header: 'ID', accessor: 'id', sortBy: 'id' },
-    { Header: 'Repo Title', accessor: 'name', sortBy: 'name' },
-    { Header: 'Owner', accessor: 'owner', sortBy: 'owner' },
-    { Header: 'Stars', accessor: 'stargazers_count', sortBy: 'stargazers_count' },
-    { Header: 'Created', accessor: 'created_at', sortBy: 'createdTimeStamp' },
+    {Header: 'ID', accessor: 'id', sortBy: 'id'},
+    {Header: 'Repo Title', accessor: 'name', sortBy: 'name'},
+    {Header: 'Owner', accessor: 'owner', sortBy: 'owner'},
+    {Header: 'Stars', accessor: 'stargazers_count', sortBy: 'stargazers_count'},
+    {Header: 'Created', accessor: 'created_at', sortBy: 'createdTimeStamp'},
   ]
 
   state = {
@@ -29,9 +29,9 @@ class ReposContainer extends React.Component {
     repos: this.props.repos
   }
 
-  componentWillReceiveProps({repos}) {
+  componentWillReceiveProps ({repos}) {
     if (repos !== this.props.repos) {
-      this.setState({ startIndex: 0, repos, selectedHeader: {}, headerValue: false,}) 
+      this.setState({startIndex: 0, repos, selectedHeader: {}, headerValue: false}); 
       // Reset pagination and headerfilter if the rows have been changed
     }
   }
@@ -45,20 +45,20 @@ class ReposContainer extends React.Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.setCache();
   }
 
   isUsersRepo = (repo = {}) => this.props.repoIDs.includes(repo.id);
 
-  onNextPress = () => this.setState({ startIndex: this.state.startIndex + this.state.rowsCount})
+  onNextPress = () => this.setState({startIndex: this.state.startIndex + this.state.rowsCount})
 
-  onPreviousPress = () => this.setState({ startIndex: this.state.startIndex - this.state.rowsCount})
+  onPreviousPress = () => this.setState({startIndex: this.state.startIndex - this.state.rowsCount})
   
-  changeRowsCount = (rowsCount) => this.setState({ rowsCount: Number(rowsCount), startIndex: 0});
+  changeRowsCount = (rowsCount) => this.setState({rowsCount: Number(rowsCount), startIndex: 0});
 
-  render() {
-    const { startIndex, rowsCount, selectedHeader, headerValue} = this.state;
+  render () {
+    const {startIndex, rowsCount, selectedHeader, headerValue} = this.state;
     const isNextActive = startIndex + rowsCount < this.props.repos.length;
     const isBackActive = startIndex >= rowsCount;
     const slicedRepos = this.state.repos.slice(startIndex, startIndex + rowsCount);
@@ -69,14 +69,14 @@ class ReposContainer extends React.Component {
           isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
         <Footer searchPlaceHolder='Rows to Display' onNextPress={this.onNextPress} 
           onPreviousPress={this.onPreviousPress} options={this.ROWS_COUNT_OPTIONS} 
-          isBackActive={isBackActive} isNextActive={isNextActive} onChange={this.changeRowsCount} ></Footer>
+          isBackActive={isBackActive} isNextActive={isNextActive} onChange={this.changeRowsCount}  />
       </Wrapper>
     );
   }
 }
 
-const mapStateToProps = ({ repos, user, loader }) => ({ 
-  repos: repos.visible.map(id => repos.cached.allRepos[id]), 
+const mapStateToProps = ({repos, user, loader}) => ({ 
+  repos: repos.visible.map((id) => repos.cached.allRepos[id]), 
   repoIDs: user.repoIDs,
   loading: loader > 0
 });
@@ -87,4 +87,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReposContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ReposContainer);

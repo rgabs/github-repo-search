@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, StatusBar } from 'react-native';
 import styled from 'styled-primitives';
+import {Platform, StatusBar} from 'react-native';
 
 const height = Platform.select({
   ios: 20,
