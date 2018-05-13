@@ -1,9 +1,9 @@
-import Footer from 'shared/components/Footer';
+import Footer from '../components/Footer';
 import React from 'react';
-import RepoList from 'shared/components/RepoList';
-import styled from 'styled-primitives';
+import RepoList from '../components/RepoList';
+import styled from '../components/primitives';
 import {connect} from 'react-redux';
-import {populateCacheFromLocal} from 'shared/actions/thunks';
+import {populateCacheFromLocal} from '../actions/thunks';
 import {sortBy} from 'lodash';
 
 const Wrapper = styled.View`

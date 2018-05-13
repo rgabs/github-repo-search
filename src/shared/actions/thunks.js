@@ -1,5 +1,5 @@
-import AsyncStorage from 'shared/utils/storage';
-import {getCachedReposForInput, processRepos} from 'shared/utils/repos';
+import AsyncStorage from '../utils/storage';
+import {getCachedReposForInput, processRepos} from '../utils/repos';
 import {isEmpty} from 'lodash';
 
 const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`).

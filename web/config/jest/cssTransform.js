@@ -4,10 +4,12 @@
 // http://facebook.github.io/jest/docs/tutorial-webpack.html
 
 module.exports = {
-  process() {
+  process () {
+    console.log('in process');
     return 'module.exports = {};';
   },
-  getCacheKey() {
+  getCacheKey () {
+    console.log('in etca');
     // The output is always the same.
     return 'cssTransform';
   },

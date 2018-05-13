@@ -1,7 +1,8 @@
 ## Github repo search
 
+Github Repo search app for web, native Android and iOS
 
-Boilerplate URL: https://github.com/callstack/universal-react-app
+> Boilerplate URL: https://github.com/callstack/universal-react-app
 
 ### Installation
 
@@ -12,7 +13,7 @@ Simply clone the repo and run `yarn` in root project directory.
 #### Web
 
 ```bash
-yarn run web
+yarn run test-update
 ```
 
 And head to http://localhost:3000/
@@ -34,13 +35,26 @@ To run iOS version:
 yarn run ios
 ```
 
-and for Android silimar:
+and for Android similar:
 
 ```bash
 yarn run android
 ```
 
 > *NOTE:* You need XCode and Android SDK + emulator to run the native side.
+
+#### Testing
+
+```bash
+yarn run test
+```
+For running the tests in watch mode
+
+
+```bash
+yarn run test
+```
+For updating/creating test snapshots
 
 
 ### Screenshots
