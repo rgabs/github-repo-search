@@ -42,6 +42,7 @@ yarn run android
 ```
 
 > *NOTE:* You need XCode and Android SDK + emulator to run the native side.
+> Also disable JS deltas on the android simulator
 
 #### Testing
 

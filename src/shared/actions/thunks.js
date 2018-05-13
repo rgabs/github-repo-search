@@ -1,5 +1,5 @@
 import AsyncStorage from '../utils/storage';
-import {getCachedReposForInput, processRepos} from '../utils/repos';
+import {getCachedReposForInput, processRepos, updateCachedRepos} from '../utils/repos';
 import {isEmpty} from 'lodash';
 
 const fetchRepos = (inputString) => fetch(`https://api.github.com/search/repositories?q=${inputString}+in:name&per_page=50`).
@@ -8,8 +8,9 @@ const fetchRepos = (inputString) => fetch(`https://api.github.com/search/reposit
 const addCache = (repos, inputString) => (dispatch, getState) => {
   const cachedRepos = getState().repos.cached;
   if (isEmpty(repos) || cachedRepos.searchStringsMap[inputString]) return;
-  dispatch({type: 'ADD_CACHE', payload: {repos: repos, inputString}});
-  AsyncStorage.setItem('cachedRepos', JSON.stringify(cachedRepos));
+  const newCachedRepos = updateCachedRepos(cachedRepos, repos, inputString);
+  dispatch({type: 'ADD_CACHE', payload: newCachedRepos});
+  AsyncStorage.setItem('cachedRepos', JSON.stringify(newCachedRepos));
 };
 
 export const fetchAndStoreRepos = (inputString) => (dispatch, getState) => {
@@ -33,14 +34,14 @@ export const fetchAndStoreRepos = (inputString) => (dispatch, getState) => {
   }
 };
 
-export const populateCacheFromLocal = () => (dispatch) => 
+export const populateCacheFromLocal = () => (dispatch) => {
   AsyncStorage.getItem('cachedRepos').
     then(JSON.parse).
     then((cachedRepos) => {
       cachedRepos && dispatch({type: 'SET_CACHE', payload: cachedRepos});
     }).
-    catch(console.log) // log because no error handler
-;
+    catch(console.log); // log because no error handler
+};
 
 export const onLoginSuccess = (accessToken) => (dispatch) => {
   dispatch({type: 'LOGIN_SUCCESS', payload: accessToken});

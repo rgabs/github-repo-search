@@ -16,19 +16,9 @@ export default (state = initialState, action) => {
     };
   }
   case 'ADD_CACHE': {
-    const {inputString, repos = []} = action.payload;
     return {
       ...state,
-      cached: {
-        allRepos: { // contains all repos data in format:: {[repoid]: {<repo data>}}
-          ...state.cached.allRepos,
-          ...repos.reduce((acc, curr) => acc[curr.id] ? acc : {...acc, [curr.id]: curr}, {})
-        },
-        searchStringsMap: { // contains which search string corresponds to which repo ids
-          ...state.cached.searchStringsMap,
-          [inputString.toLowerCase()]: repos.map((repo) => repo.id)
-        }
-      }
+      cached: action.payload
     };
   }
   case 'SET_CACHE': {
