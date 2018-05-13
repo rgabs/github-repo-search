@@ -1,4 +1,7 @@
-## Universal React Workshop
+## Github repo search
+
+
+Boilerplate URL: https://github.com/callstack/universal-react-app
 
 ### Installation
 
@@ -13,6 +16,8 @@ yarn run web
 ```
 
 And head to http://localhost:3000/
+
+> *NOTE:* Github login will work only on port 3000 since github redirects to http://localhost:3000/ on successful authentication.
 
 #### Native
 
@@ -37,13 +42,31 @@ yarn run android
 
 > *NOTE:* You need XCode and Android SDK + emulator to run the native side.
 
-### Branching
 
-We've implemented workshop app in few stages.
-If you'll get lost during the workshop, you have a chance to checkout to a branch which is specific to current stage:
+### Screenshots
 
-- [Setup](https://github.com/callstack-io/universal-react-app/tree/01-Setup)
-- [Webpack and Haul configs](https://github.com/callstack-io/universal-react-app/tree/02-Config-Webpack-And-Haul)
-- [Components](https://github.com/callstack-io/universal-react-app/tree/03-Add-Shared-Components)
-- [Redux](https://github.com/callstack-io/universal-react-app/tree/04-Logic-Layer)
-- [Navigation](https://github.com/callstack-io/universal-react-app/tree/05-Navigation)
+<div style="text-align:center" id='qr-code'>
+<img src="/screenshots/1.png" width='30%' style="display:inline-block;" hspace="20">
+<img src="/screenshots/2.png" width='30%' style="display:inline-block;" hspace="20">
+<br />
+<img src="/screenshots/3.png" width='25%' style="display:inline-block;" hspace="20">
+<img src="/screenshots/4.png" width='25%' style="display:inline-block;" hspace="20">
+<br />
+<img src="/screenshots/5.png" width='25%' style="display:inline-block;" hspace="20">
+<img src="/screenshots/6.png" width='25%' style="display:inline-block;" hspace="20">
+<img src="/screenshots/7.png" width='25%' style="display:inline-block;" hspace="20">
+</div>
+
+### Features
+
+* Search for public Github repos by repo name.
+* Sort functionality in each header.
+* Caching of previously searched repos.
+* Github login integration. The user's repos will be highlighted.
+* Pagination/Sorting/Flexible rows on the UI.
+* Shared Logic of the app between Native Mobile and web.
+
+### TODO
+
+* Write unit test cases for the codebase
+* Persist app state when we login to Github on the web app.
