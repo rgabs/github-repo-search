@@ -73,3 +73,7 @@ fastlane/screenshots
 #
 haul-debug.log
 .happypack
+
+# mobile bundle js files
+*.bundle
+*.bundle.map
