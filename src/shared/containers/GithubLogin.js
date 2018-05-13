@@ -7,8 +7,8 @@ import {onLoginSuccess} from 'shared/actions/thunks';
 const GithubLogin = SocialLogin(GithubLoginButton);
 
 const GithubLoginContainer = ({user, ...extraProps}) => (
-  !user.isLoggedIn ? <GithubLogin gatekeeper='http://repo-search.herokuapp.com' redirect={window.location.href} 
-    provider='github' appId={'1edaa48ff8fc280178a0'} {...extraProps}/> : 'Logged In'
+  <GithubLogin isLoggedIn={user.isLoggedIn} gatekeeper='http://repo-search.herokuapp.com' 
+    redirect={window.location.href} provider='github' appId={'1edaa48ff8fc280178a0'} {...extraProps}/> 
 )
 
 const mapDispatchToProps = (dispatch) => ({

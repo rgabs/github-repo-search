@@ -19,7 +19,7 @@ const Footer = ({ onNextPress, onPreviousPress, isBackActive, isNextActive, sear
       color='#f50' component={TouchableOpacity}
       onPress={onPreviousPress} />
     <View useNativeDriver animation='fadeIn' style={styles.dropDownContainer}>
-      <DropDown placeholder={{ label: searchPlaceHolder }} options={options} onChange={onChange} />
+      <DropDown placeholder={{ label: searchPlaceHolder, value: options[0] }} options={options} onChange={onChange} />
     </View>
     <Icon raised disabled={!isNextActive}
       name='chevron-right'

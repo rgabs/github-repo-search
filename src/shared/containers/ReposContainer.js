@@ -64,7 +64,7 @@ class ReposContainer extends React.Component {
     const slicedRepos = this.state.repos.slice(startIndex, startIndex + rowsCount);
     return (
       <Wrapper>
-        <RepoList selectedHeader={selectedHeader} dropdownPlaceholder='Rows to Display' repos={slicedRepos} 
+        <RepoList selectedHeader={selectedHeader} repos={slicedRepos} 
           headerValue={headerValue} loading={this.props.loading} toggleHeader={this.toggleHeader} 
           isUsersRepo={this.isUsersRepo} columns={this.HEADINGS} />
         <Footer searchPlaceHolder='Rows to Display' onNextPress={this.onNextPress} 
