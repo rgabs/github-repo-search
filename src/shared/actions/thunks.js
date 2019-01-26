@@ -43,9 +43,9 @@ export const populateCacheFromLocal = () => (dispatch) => {
     catch(console.log); // log because no error handler
 };
 
-export const onLoginSuccess = (accessToken) => (dispatch) => {
-  dispatch({type: 'LOGIN_SUCCESS', payload: accessToken});
-  return fetch(`https://api.github.com/user/repos?access_token=${accessToken}&affiliation=owner&per_page=100`).
+export const onLoginSuccess = (user) => (dispatch) => {
+  dispatch({type: 'LOGIN_SUCCESS', payload: user});
+  return fetch(`https://api.github.com/user/repos?access_token=${user.accessToken}&affiliation=owner&per_page=100`).
     then((res) => res.json()).
     then((res) => {
       dispatch({type: 'REPOS_FETCHED', payload: res.map((repo) => repo.id)});
