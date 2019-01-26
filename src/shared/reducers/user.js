@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
   case 'LOGIN_SUCCESS': {
     return {
       ...state,
-      accessToken: action.payload,
+      ...action.payload,
       isLoggedIn: true
     };
   }

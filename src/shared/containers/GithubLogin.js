@@ -7,14 +7,14 @@ import {onLoginSuccess} from 'shared/actions/thunks';
 const GithubLogin = SocialLogin(GithubLoginButton);
 
 const GithubLoginContainer = ({user, ...extraProps}) => (
-  <GithubLogin isLoggedIn={user.isLoggedIn} gatekeeper='http://repo-search.herokuapp.com' 
+  <GithubLogin {...user} gatekeeper='http://repo-search.herokuapp.com' 
     redirect={window.location.href} provider='github' appId={'1edaa48ff8fc280178a0'} {...extraProps}/> 
 );
 
 const mapDispatchToProps = (dispatch) => ({
   onLoginSuccess: (response) => {
     window.history.replaceState({}, document.title, '/');
-    dispatch(onLoginSuccess(response._token.accessToken));
+    dispatch(onLoginSuccess({accessToken: response._token.accessToken, name: response._profile.name}));
   },
   onLoginFailure: console.log
 });
